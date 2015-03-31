@@ -1,3 +1,20 @@
+<?php
+	$servername = "localhost";
+	$username = "user_tuan";
+	$password = "tuan123456";
+	$dbname = "tuan";
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	} 
+
+	$sql = "SELECT * FROM user";
+	$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -58,10 +75,20 @@
     </div>
     <div id="slides">
       <div class="slides-container">
-        <img src="images/people.jpeg" alt="Cinelli">
+        
         <img src="images/surly.jpeg" width="1024" height="682" alt="Surly">
         <img src="images/cinelli-front.jpeg" width="1024" height="683" alt="Cinelli">
         <img src="images/affinity.jpeg" width="1024" height="685" alt="Affinity">
+        <?php
+        	if ($result->num_rows > 0) {
+		    // output data of each row
+
+			    while($row = $result->fetch_assoc()) {
+			        // print_r($row);
+			        echo "<img src=\"" . $row["img_link"] ."\">";
+			    }
+			}
+        ?>
       </div>
 
       <nav class="slides-navigation">
@@ -152,3 +179,7 @@
     </script>  
   </body>
 </html>
+
+<?php
+	$conn->close();
+?>
